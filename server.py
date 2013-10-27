@@ -3,6 +3,7 @@ import SocketServer
 import cgi
 import config
 import os
+import hashlib
 import requests
 
 
