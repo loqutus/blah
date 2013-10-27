@@ -3,7 +3,7 @@ import sys
 import hashlib
 
 for file in sys.argv[1:-1]:
-    md5 = hashlib.md5(file)
+    md5 = hashlib.md5(open(file).read().hexdigest())
     headers = {'md5': md5}
     r = requests.post(sys.argv[-1], files={file: open(file, 'rb')}, headers=headers)
     print file
