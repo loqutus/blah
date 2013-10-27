@@ -23,7 +23,7 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             print item.name
             f.write(item.value)
             f.close()
-            md5Local = hashlib.md5(item.name)
+            md5Local = hashlib.md5(open(item.name).read().hexdigest())
         md5 = self.headers.get("md5")
         if md5 == md5Local:
             self.send_response(200)
@@ -43,7 +43,7 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         fl = open(filename, "wb")
         fl.write(result)
         fl.close()
-        md5Local = hashlib.md5(filename)
+        md5Local = hashlib.md5(open(filename).read().hexdigest())
         md5 = self.headers.get("md5")
         if md5 == md5Local:
             self.send_response(200)
