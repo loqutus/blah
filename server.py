@@ -23,8 +23,13 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             print item.name
             f.write(item.value)
             f.close()
+            md5Local = hashlib.md5(item.name)
         md5 = self.headers.get("md5")
-        self.send_response(200)
+        if md5 == md5Local:
+            self.send_response(200)
+        else:
+            self.send_response(500)
+
 
     def do_PUT(self):
         form = cgi.FieldStorage(
@@ -38,7 +43,12 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         fl = open(filename, "wb")
         fl.write(result)
         fl.close()
-        self.send_response(200)
+        md5Local = hashlib.md5(filename)
+        md5 = self.headers.get("md5")
+        if md5 == md5Local:
+            self.send_response(200)
+        else:
+            self.send_response(500)
 
 
 def serve():
