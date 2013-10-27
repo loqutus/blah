@@ -23,7 +23,7 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             print item.name
             f.write(item.value)
             f.close()
-        print self.headers
+        md5 = self.headers.get("md5")
         self.send_response(200)
 
     def do_PUT(self):
