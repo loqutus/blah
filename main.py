@@ -1,6 +1,7 @@
 import SimpleHTTPServer
 import SocketServer
 import cgi
+import config
 import os
 
 
@@ -39,10 +40,10 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
 
 def serve():
-    PORT = 8000
+    os.chdir(config.directory)
     Handler = ServerHandler
-    httpd = MyTCPServer(("", PORT), Handler)
-    print "serving at port", PORT
+    httpd = MyTCPServer((config.ip, config.port), Handler)
+    print "serving at port", config.port
     httpd.serve_forever()
 
 
