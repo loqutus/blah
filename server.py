@@ -26,8 +26,6 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             f.close()
             md5Local = hashlib.md5(open(item.name).read()).hexdigest()
         md5 = self.headers.get("md5")
-        print md5
-        print md5Local
         if md5 == md5Local:
             self.send_response(200)
         else:
