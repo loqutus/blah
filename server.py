@@ -20,8 +20,9 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             environ={'REQUEST_METHOD': 'POST',
                      'CONTENT_TYPE': self.headers['Content-Type'],
             })
-        name = item.name
+        name = ""
         for item in form.list:
+            name = item.name
             f = open(item.name, "w")
             f.write(item.value)
             f.close()
@@ -58,8 +59,8 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 def serve():
     os.chdir(config.directory)
     connection = pymongo.Connection(config.db_host, config.db_port)
-    db=connection.blah
-    collection=db.files
+    db = connection.blah
+    collection = db.files
     Handler = ServerHandler
     httpd = MyTCPServer((config.ip, config.port), Handler)
     print "serving at port", config.port
