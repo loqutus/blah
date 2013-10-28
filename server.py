@@ -33,6 +33,9 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         else:
             self.send_response(500)
         files = {"name": name, "md5": md5}
+        connection = pymongo.Connection(config.db_host, config.db_port)
+        db = connection.blah
+        collection = db.files
         collection.insert(files)
 
 
@@ -54,13 +57,15 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             self.send_response(200)
         else:
             self.send_response(500)
+        files = {"name": filename, "md5": md5}
+        connection = pymongo.Connection(config.db_host, config.db_port)
+        db = connection.blah
+        collection = db.files
+        collection.insert(files)
 
 
 def serve():
     os.chdir(config.directory)
-    connection = pymongo.Connection(config.db_host, config.db_port)
-    db = connection.blah
-    collection = db.files
     Handler = ServerHandler
     httpd = MyTCPServer((config.ip, config.port), Handler)
     print "serving at port", config.port
