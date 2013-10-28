@@ -21,7 +21,6 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             })
         for item in form.list:
             f = open(item.name, "w")
-            print item.name
             f.write(item.value)
             f.close()
             md5Local = hashlib.md5(open(item.name).read()).hexdigest()
