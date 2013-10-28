@@ -62,6 +62,7 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         db = connection.blah
         collection = db.files
         collection.insert(files)
+        print "blah!"
 
 
 def serve():
