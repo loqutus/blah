@@ -54,15 +54,15 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         md5Local = hashlib.md5(open(filename).read()).hexdigest()
         md5 = self.headers.get("md5")
         if md5 == md5Local:
+            files = {"name": filename, "md5": md5}
+            connection = pymongo.Connection(config.db_host, config.db_port)
+            db = connection.blah
+            collection = db.files
+            collection.insert(files)
             self.send_response(200)
         else:
             self.send_response(500)
-        files = {"name": filename, "md5": md5}
-        connection = pymongo.Connection(config.db_host, config.db_port)
-        db = connection.blah
-        collection = db.files
-        collection.insert(files)
-        print "blah!"
+
 
 
 def serve():
