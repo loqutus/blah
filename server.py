@@ -57,9 +57,9 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
 def serve():
     os.chdir(config.directory)
-    global connection = pymongo.Connection(config.db_host, config.db_port)
-    global db=connection.blah
-    global collection=db.files
+    connection = pymongo.Connection(config.db_host, config.db_port)
+    db=connection.blah
+    collection=db.files
     Handler = ServerHandler
     httpd = MyTCPServer((config.ip, config.port), Handler)
     print "serving at port", config.port
