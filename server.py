@@ -4,6 +4,7 @@ import cgi
 import config
 import os
 import hashlib
+import pymongo
 import requests
 
 
@@ -19,6 +20,7 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             environ={'REQUEST_METHOD': 'POST',
                      'CONTENT_TYPE': self.headers['Content-Type'],
             })
+        name = item.name
         for item in form.list:
             f = open(item.name, "w")
             f.write(item.value)
@@ -29,6 +31,8 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             self.send_response(200)
         else:
             self.send_response(500)
+        files = {"name": name, "md5": md5}
+        collection.insert(files)
 
 
     def do_PUT(self):
@@ -53,6 +57,9 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
 def serve():
     os.chdir(config.directory)
+    global connection = pymongo.Connection(config.db_host, config.db_port)
+    global db=connection.blah
+    global collection=db.files
     Handler = ServerHandler
     httpd = MyTCPServer((config.ip, config.port), Handler)
     print "serving at port", config.port
