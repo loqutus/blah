@@ -20,10 +20,10 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             environ={'REQUEST_METHOD': 'POST',
                      'CONTENT_TYPE': self.headers['Content-Type'],
             })
-        #connection = pymongo.Connection(config.db_host, config.db_port)
-        #db = connection.blah
-        #collection = db.files
-        #md5 = self.headers.get("md5")
+        connection = pymongo.Connection(config.db_host, config.db_port)
+        db = connection.blah
+        collection = db.files
+        md5 = self.headers.get("md5")
         a = collection.find_one({"md5": md5})
         if a:
             print "a!"
