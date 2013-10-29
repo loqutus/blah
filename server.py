@@ -76,13 +76,12 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             self.send_response(500)
 
 
-    def serve():
-        os.chdir(config.directory)
-        Handler = ServerHandler
-        httpd = MyTCPServer((config.ip, config.port), Handler)
-        print "serving at port", config.port
-        httpd.serve_forever()
-
+def serve():
+    os.chdir(config.directory)
+    Handler = ServerHandler
+    httpd = MyTCPServer((config.ip, config.port), Handler)
+    print "serving at port", config.port
+    httpd.serve_forever()
 
     if __name__ == '__main__':
         serve()
