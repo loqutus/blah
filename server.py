@@ -21,12 +21,6 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                      'CONTENT_TYPE': self.headers['Content-Type'],
             })
 
-        #md5 = self.headers.get("md5")
-        #a = collection.find_one({"md5": md5})
-        #if a:
-        #    print a
-        #else:
-        #    print "not a!"
         for item in form.list:
             connection = pymongo.Connection(config.db_host, config.db_port)
             db = connection.blah
