@@ -43,12 +43,12 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                     f.close()
                     md5Local = hashlib.md5(open(item.name).read()).hexdigest()
 
-                if md5 == md5Local:
-                    files = {"name": name, "md5": md5}
-                    collection.insert(files)
-                    self.send_response(200)
-                else:
-                    self.send_response(500)
+                    if md5 == md5Local:
+                        files = {"name": name, "md5": md5}
+                        collection.insert(files)
+                        self.send_response(200)
+                    else:
+                        self.send_response(500)
 
 
     def do_PUT(self):
