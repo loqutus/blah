@@ -35,10 +35,10 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         #    f.write(item.value)
         #    f.close()
         #    md5Local = hashlib.md5(open(item.name).read()).hexdigest()
-        if md5 == md5Local:
-            self.send_response(200)
-        else:
-            self.send_response(500)
+        #if md5 == md5Local:
+        self.send_response(200)
+        #else:
+        #    self.send_response(500)
         #files = {"name": name, "md5": md5}
         #collection.insert(files)
 
