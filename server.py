@@ -64,5 +64,6 @@ def serve():
     print "serving at port", config.port
     httpd.serve_forever()
 
-    if __name__ == '__main__':
-        serve()
+
+if __name__ == '__main__':
+    serve()
