@@ -5,6 +5,7 @@ import config
 import os
 import hashlib
 import pymongo
+import requests
 
 
 class MyTCPServer(SocketServer.TCPServer):
@@ -31,14 +32,17 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                 if a["md5"] == md5:  #если md5 загружаемого файла совпадает с тем, что записано в базе
                     self.send_response(200)
                 else:
-                    os.remove(item.name)
-                    f = open(item.name, "w")
+                    os.remove(name)
+                    f = open(name, "w")
                     f.write(item.value)
                     f.close()
-                    md5local = hashlib.md5(open(item.name).read()).hexdigest()
+                    md5local = hashlib.md5(open(name).read()).hexdigest()
                     if md5 == md5local:
                         files = {"name": name, "md5": md5}
                         collection.insert(files)
+                        for host in config.hosts:
+                            headers = {'md5': md5}
+                            r = requests.post(host, files={file: open(name, 'rb')}, headers=headers)
                         self.send_response(200)
                     else:
                         os.remove(item.name)
@@ -51,6 +55,9 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                 if md5 == md5local:
                     files = {"name": name, "md5": md5}
                     collection.insert(files)
+                    for host in config.hosts:
+                        headers = {'md5': md5}
+                        r = requests.post(host, files={file: open(name, 'rb')}, headers=headers)
                     self.send_response(200)
                 else:
                     os.remove(item.name)
