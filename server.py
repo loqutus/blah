@@ -30,7 +30,19 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             a = collection.find_one({"name": name})
             if a:  #if file exists in mongodb
                 if a["md5"] == md5:  #if md5 in mongodb equals md5 of a file
-
+                    if os.path.exists(name):
+                        md5local = hashlib.md5(open(name).read()).hexdigest()
+                        if md5local == md5:
+                            pass
+                        else:
+                            os.remove(name)
+                            f = open(name, "w")
+                            f.write(item.value)
+                            f.close()
+                    else:
+                        f = open(name, "w")
+                        f.write(item.value)
+                        f.close()
                     self.send_response(200)
                 else:
                     os.remove(name)
@@ -47,13 +59,13 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                                               headers=headers)
                         self.send_response(200)
                     else:
-                        os.remove(item.name)
+                        os.remove(name)
                         self.send_response(500)
             else:  #if file does not exists
-                f = open(item.name, "w")
+                f = open(name, "w")
                 f.write(item.value)
                 f.close()
-                md5local = hashlib.md5(open(item.name).read()).hexdigest()
+                md5local = hashlib.md5(open(name).read()).hexdigest()
                 if md5 == md5local:
                     files = {"name": name, "md5": md5}
                     collection.insert(files)
@@ -63,7 +75,7 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                                           headers=headers)
                     self.send_response(200)
                 else:
-                    os.remove(item.name)
+                    os.remove(name)
                     self.send_response(500)
 
 
