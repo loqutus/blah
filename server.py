@@ -54,6 +54,7 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                         files = {"name": name, "md5": md5}
                         collection.insert(files)
                         for host in config.hosts:
+                            print host
                             headers = {'md5': md5}
                             r = requests.post(host + ":" + str(config.port), files={file: open(name, 'rb')},
                                               headers=headers)
@@ -70,6 +71,7 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                     files = {"name": name, "md5": md5}
                     collection.insert(files)
                     for host in config.hosts:
+                        print host
                         headers = {'md5': md5}
                         r = requests.post(host + ":" + str(config.port), files={file: open(name, 'rb')},
                                           headers=headers)
