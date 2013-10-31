@@ -6,6 +6,7 @@ import os
 import hashlib
 import pymongo
 import requests
+import pdb
 
 
 class MyTCPServer(SocketServer.TCPServer):
@@ -53,8 +54,8 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                     if md5 == md5local:
                         files = {"name": name, "md5": md5}
                         collection.insert(files)
+                        pdb.set_trace()
                         for host in config.hosts:
-                            print host
                             headers = {'md5': md5}
                             r = requests.post(host + ":" + str(config.port), files={file: open(name, 'rb')},
                                               headers=headers)
@@ -71,7 +72,7 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                     files = {"name": name, "md5": md5}
                     collection.insert(files)
                     for host in config.hosts:
-                        print host
+                        pdb.set_trace()
                         headers = {'md5': md5}
                         r = requests.post(host + ":" + str(config.port), files={file: open(name, 'rb')},
                                           headers=headers)
