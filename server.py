@@ -6,6 +6,7 @@ import os
 import hashlib
 import pymongo
 import requests
+# -*- coding: utf-8 -*-
 
 
 class MyTCPServer(SocketServer.TCPServer):
