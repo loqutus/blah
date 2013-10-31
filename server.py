@@ -30,6 +30,7 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             a = collection.find_one({"name": name})
             if a:  #if file exists in mongodb
                 if a["md5"] == md5:  #if md5 in mongodb equals md5 of a file
+
                     self.send_response(200)
                 else:
                     os.remove(name)
@@ -42,7 +43,7 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                         collection.insert(files)
                         for host in config.hosts:
                             headers = {'md5': md5}
-                            r = requests.post(host + ":" + "config.port", files={file: open(name, 'rb')},
+                            r = requests.post(host + ":" + str(config.port), files={file: open(name, 'rb')},
                                               headers=headers)
                         self.send_response(200)
                     else:
@@ -58,7 +59,8 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                     collection.insert(files)
                     for host in config.hosts:
                         headers = {'md5': md5}
-                        r = requests.post(host + ":" + config.port, files={file: open(name, 'rb')}, headers=headers)
+                        r = requests.post(host + ":" + str(config.port), files={file: open(name, 'rb')},
+                                          headers=headers)
                     self.send_response(200)
                 else:
                     os.remove(item.name)
