@@ -27,28 +27,28 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             name = item.name
             md5 = self.headers.get("md5")
             a = collection.find_one({"name": name})
-            if a:
-                if a["md5"] == md5:
+            if a:  #если файл уже есть в монге
+                if a["md5"] == md5:  #если md5 загружаемого файла совпадает с тем, что записано в базе
                     self.send_response(200)
                 else:
                     os.remove(item.name)
                     f = open(item.name, "w")
                     f.write(item.value)
                     f.close()
-                    md5Local = hashlib.md5(open(item.name).read()).hexdigest()
-                    if md5 == md5Local:
+                    md5local = hashlib.md5(open(item.name).read()).hexdigest()
+                    if md5 == md5local:
                         files = {"name": name, "md5": md5}
                         collection.insert(files)
                         self.send_response(200)
                     else:
                         os.remove(item.name)
                         self.send_response(500)
-            else:
+            else:  #если файла еще нет
                 f = open(item.name, "w")
                 f.write(item.value)
                 f.close()
-                md5Local = hashlib.md5(open(item.name).read()).hexdigest()
-                if md5 == md5Local:
+                md5local = hashlib.md5(open(item.name).read()).hexdigest()
+                if md5 == md5local:
                     files = {"name": name, "md5": md5}
                     collection.insert(files)
                     self.send_response(200)
