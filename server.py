@@ -6,7 +6,6 @@ import os
 import hashlib
 import pymongo
 import requests
-# -*- coding: utf-8 -*-
 
 
 class MyTCPServer(SocketServer.TCPServer):
@@ -29,8 +28,8 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             name = item.name
             md5 = self.headers.get("md5")
             a = collection.find_one({"name": name})
-            if a:  #если файл уже есть в монге
-                if a["md5"] == md5:  #если md5 загружаемого файла совпадает с тем, что записано в базе
+            if a:  #if file exists in mongodb
+                if a["md5"] == md5:  #if md5 in mongodb equals md5 of a file
                     self.send_response(200)
                 else:
                     os.remove(name)
@@ -48,7 +47,7 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                     else:
                         os.remove(item.name)
                         self.send_response(500)
-            else:  #если файла еще нет
+            else:  #if file does not exists
                 f = open(item.name, "w")
                 f.write(item.value)
                 f.close()
