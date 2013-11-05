@@ -90,9 +90,9 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                         print host
                         print "http://" + host + ":" + str(config.port)
                         #pdb.set_trace()
-                        headers = {'md5': md5}
+                        header = {'md5': md5}
                         r = requests.post("http://" + host + ":" + str(config.port), files={file: open(name, 'rb')},
-                                          headers=headers)
+                                          headers=header)
                     self.send_response(200)
                 else:
                     print "11"
