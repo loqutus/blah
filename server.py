@@ -69,8 +69,9 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                             print config.directory + "/" + name
                             headers = {'md5': md5}
                             print headers
+                            fil = open(config.directory + "/" + name, 'rb')
                             r = requests.post("http://" + host + ":" + str(config.port),
-                                              files={file: open(config.directory + "/" + name, 'rb')}, headers=headers)
+                                              files=fil, headers=headers)
                         self.send_response(200)
                     else:
                         print 8
@@ -91,7 +92,8 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                         print "http://" + host + ":" + str(config.port)
                         #pdb.set_trace()
                         header = {'md5': md5}
-                        r = requests.post("http://" + host + ":" + str(config.port), files={file: open(name, 'rb')},
+                        fil = open(config.directory + "/" + name, 'rb')
+                        r = requests.post("http://" + host + ":" + str(config.port), files=fil,
                                           headers=header)
                     self.send_response(200)
                 else:
