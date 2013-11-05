@@ -72,6 +72,7 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                             fil = open(config.directory + "/" + name, 'rb')
                             r = requests.post("http://" + host + ":" + str(config.port),
                                               files=fil, headers=head)
+                            fil.close()
                         self.send_response(200)
                     else:
                         print 8
@@ -95,6 +96,7 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                         fil = open(config.directory + "/" + name, 'rb')
                         r = requests.post("http://" + host + ":" + str(config.port), files=fil,
                                           headers=head)
+                        file.close()
                     self.send_response(200)
                 else:
                     print "11"
