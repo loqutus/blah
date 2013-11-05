@@ -68,7 +68,7 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                             print "http://" + host + ":" + str(config.port)
                             print config.directory + "/" + name
                             head = {'md5': md5}
-                            print headers
+                            print head
                             fil = open(config.directory + "/" + name, 'rb')
                             r = requests.post("http://" + host + ":" + str(config.port),
                                               files=fil, headers=head)
