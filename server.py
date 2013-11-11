@@ -93,7 +93,9 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                         print "http://" + host + ":" + str(config.port)
                         #pdb.set_trace()
                         head = {'md5': md5}
+                        print head
                         fil = open(config.directory + "/" + name, 'rb')
+                        print file
                         r = requests.post("http://" + host + ":" + str(config.port), files={file: fil},
                                           headers=head)
                         file.close()
