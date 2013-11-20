@@ -1,11 +1,13 @@
 import SimpleHTTPServer
 import SocketServer
 import cgi
-import config
 import os
 import hashlib
+
+import config
 import pymongo
 import requests
+
 #import pdb
 
 
@@ -19,7 +21,7 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             fp=self.rfile,
             headers=self.headers,
             environ={'REQUEST_METHOD': 'POST',
-                     'CONTENT_TYPE': self.headers['Content-Type'],
+                     'CONTENT_TYPE': self.headers['Content-Type'],`
             })
 
         for item in form.list:
