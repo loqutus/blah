@@ -23,7 +23,7 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             environ={'REQUEST_METHOD': 'POST',
                      'CONTENT_TYPE': self.headers['Content-Type'],
             })
-        print form.list
+        #print form.list
         for item in form.list:
             connection = pymongo.Connection(config.db_host, config.db_port)
             db = connection.blah
@@ -97,7 +97,7 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                         head = {'md5': md5}
                         print head
                         fil = open(config.directory + "/" + name, 'rb')
-                        print file
+                        #print file
                         r = requests.post("http://" + host + ":" + str(config.port), files={file: fil},
                                           headers=head)
                         file.close()
