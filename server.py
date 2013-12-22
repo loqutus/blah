@@ -21,9 +21,9 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             fp=self.rfile,
             headers=self.headers,
             environ={'REQUEST_METHOD': 'POST',
-                     'CONTENT_TYPE': self.headers['Content-Type'],`
+                     'CONTENT_TYPE': self.headers['Content-Type'],
             })
-
+        print form.list
         for item in form.list:
             connection = pymongo.Connection(config.db_host, config.db_port)
             db = connection.blah
