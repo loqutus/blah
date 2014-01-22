@@ -90,17 +90,17 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                     print 10
                     files = {"name": name, "md5": md5}
                     collection.insert(files)
-                    for host in config.hosts:
-                        print host
-                        print "http://" + host + ":" + str(config.port)
-                        #pdb.set_trace()
-                        head = {'md5': md5}
-                        print head
-                        fil = open(config.directory + "/" + name, 'rb')
-                        #print file
-                        r = requests.post("http://" + host + ":" + str(config.port), files={file: fil},
-                                          headers=head)
-                        file.close()
+                    # for host in config.hosts:
+                    #     print host
+                    #     print "http://" + host + ":" + str(config.port)
+                    #     #pdb.set_trace()
+                    #     head = {'md5': md5}
+                    #     print head
+                    #     fil = open(config.directory + "/" + name, 'rb')
+                    #     #print file
+                    #     r = requests.post("http://" + host + ":" + str(config.port), files={file: fil},
+                    #                       headers=head)
+                    #     file.close()
                     self.send_response(200)
                 else:
                     print "11"
