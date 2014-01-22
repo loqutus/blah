@@ -25,7 +25,7 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             })
         #print form.list
         for item in form.list:
-            connection = pymongo.Connection(config.db_host, config.db_port)
+            connection = pymongo.Connection(host=config.db_host, port=config.db_port)
             db = connection.blah
             collection = db.files
             name = item.name
