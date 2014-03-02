@@ -65,16 +65,16 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                         files = {"name": name, "md5": md5}
                         collection.insert(files)
                         #pdb.set_trace()
-                        for host in config.hosts:
-                            print host
-                            print "http://" + host + ":" + str(config.port)
-                            print config.directory + "/" + name
-                            head = {'md5': md5}
-                            print head
-                            fil = open(config.directory + "/" + name, 'rb')
-                            r = requests.post("http://" + host + ":" + str(config.port),
-                                              files={file: fil}, headers=head)
-                            fil.close()
+                        # for host in config.hosts:
+                        #     print host
+                        #     print "http://" + host + ":" + str(config.port)
+                        #     print config.directory + "/" + name
+                        #     head = {'md5': md5}
+                        #     print head
+                        #     fil = open(config.directory + "/" + name, 'rb')
+                        #     r = requests.post("http://" + host + ":" + str(config.port),
+                        #                       files={file: fil}, headers=head)
+                        #     fil.close()
                         self.send_response(200)
                     else:
                         print 8
@@ -106,6 +106,26 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                     print "11"
                     os.remove(name)
                     self.send_response(500)
+
+    def do_GET(self):
+        form = cgi.FieldStorage(
+            fp=self.rfile,
+            headers=self.headers,
+            environ={'REQUEST_METHOD': 'GET',
+                     'CONTENT_TYPE': self.headers['Content-Type'],
+            })
+        #print form.list
+        for item in form.list:
+            connection = pymongo.Connection(host=config.db_host, port=config.db_port)
+            db = connection.blah
+            collection = db.files
+            name = item.name
+            md5 = self.headers.get("md5")
+            a = collection.find_one({"name": name})
+            print a
+            if a:
+                r=requests.post("")
+
 
 
 def serve():

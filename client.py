@@ -1,20 +1,24 @@
 import sys
 import hashlib
+import cgi
 
 import requests
+import SocketServer
 
-print "1"
-print sys.argv[0]
-print sys.argv[1]
-file = sys.argv[1]
-print "2"
-#todo:use basename instead of just sys.argv[]
-md5 = hashlib.md5(open(file).read()).hexdigest()
-headers = {'md5': md5}
-print md5
-print headers
-print file
-print sys.argv[-1]
-r = requests.post(sys.argv[-1], files={file: open(file, 'rb')}, headers=headers)
-print file
-print "done"
+action = sys.argv[1]
+if action == 'upload':
+    file = sys.argv[2]
+    md5 = hashlib.md5(open(file).read()).hexdigest()
+    headers = {'md5': md5, 'action': 'upload'}
+    r = requests.post(sys.argv[3], files={file: open(file, 'rb')}, headers=headers)
+elif action == 'download':
+    file = sys.argv[2]
+    headers = {'file': file, 'action': 'download'}
+    r = requests.post(sys.argv[3], headers=headers)
+    form = cgi.FieldStorage(
+        fp=SocketServer.rfile,
+        headers=headers,
+        environ={'REQUEST_METHOD': 'POST',
+                 'CONTENT_TYPE': headers['Content-Type'],
+        })
+    print "done"
