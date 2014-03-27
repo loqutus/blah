@@ -124,8 +124,7 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             a = collection.find_one({"name": name})
             print a
             if a:
-                r=requests.post("")
-
+                r = requests.post("")
 
 
 def serve():
